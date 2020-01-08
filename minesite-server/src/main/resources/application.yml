@@ -1,2 +1,39 @@
 server:
-  port: 8080
+  tomcat:
+    basedir: /var/tmp/
+    max-threads: 0
+    uri-encoding: UTF-8
+    remote-ip-header: x-forwarded-for
+    protocol-header: x-forwarded-proto
+    port-header: X-Forwarded-Port
+  use-forward-headers: true
+  servlet:
+    context-path: /api
+    session:
+      timeout: 30s
+
+spring:
+  profiles:
+    active: local,db
+  application:
+    name: minesite-server
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  mvc:
+    static-path-pattern: /static/**
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true
+  freemarker:
+    prefer-file-system-access: false
+  aop:
+    auto: true
+  messages:
+    basename: i18n/message
+
+minesite:
+  login:
+    seconds: 3600
+    sign: dksk24k30xk
