@@ -78,11 +78,16 @@ public class UserUtils {
     }
 
     public static boolean verifyToken(String token) {
-        String subject = Jwts.parser()
-                .setSigningKey(signKey())
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+        String subject;
+        try {
+            subject = Jwts.parser()
+                    .setSigningKey(signKey())
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+        } catch (Exception e) {
+            subject = null;
+        }
         return StringUtils.isNotEmpty(subject);
     }
 

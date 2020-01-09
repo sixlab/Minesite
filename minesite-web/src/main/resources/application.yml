@@ -28,6 +28,8 @@ spring:
       write-dates-as-timestamps: true
   freemarker:
     prefer-file-system-access: false
+    settings:
+      number_format: 0.##
   aop:
     auto: true
   messages:
