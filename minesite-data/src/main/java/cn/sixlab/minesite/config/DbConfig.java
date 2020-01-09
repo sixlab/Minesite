@@ -13,7 +13,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -26,7 +25,6 @@ import java.util.Map;
 
 @Slf4j
 @Configuration
-@ComponentScan
 public class DbConfig implements TransactionManagementConfigurer {
     @Value("${minesite.druid.username}")
     private String username;
