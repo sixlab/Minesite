@@ -6,7 +6,7 @@ server:
     remote-ip-header: x-forwarded-for
     protocol-header: x-forwarded-proto
     port-header: X-Forwarded-Port
-  use-forward-headers: true
+  forward-headers-strategy: framework
   servlet:
     context-path: /api
     session:
@@ -32,8 +32,7 @@ spring:
     auto: true
   messages:
     basename: i18n/message
-
-minesite:
-  login:
-    seconds: 3600
-    sign: dksk24k30xk
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
