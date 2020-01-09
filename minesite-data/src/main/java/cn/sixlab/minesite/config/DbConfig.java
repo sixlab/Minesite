@@ -87,7 +87,7 @@ public class DbConfig implements TransactionManagementConfigurer {
     @Bean
     public JdkRegexpMethodPointcut druidStatPointcut() {
         JdkRegexpMethodPointcut druidStatPointcut = new JdkRegexpMethodPointcut();
-        String pattern = "cn.sixlab.minesite.*";
+        String pattern = "cn.sixlab.*";
         druidStatPointcut.setPattern(pattern);
         return druidStatPointcut;
     }

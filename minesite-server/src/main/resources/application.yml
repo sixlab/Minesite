@@ -6,7 +6,7 @@ server:
     remote-ip-header: x-forwarded-for
     protocol-header: x-forwarded-proto
     port-header: X-Forwarded-Port
-  forward-headers-strategy: framework
+  forward-headers-strategy: native
   servlet:
     context-path: /api
     session:
@@ -14,7 +14,7 @@ server:
 
 spring:
   profiles:
-    active: local,db
+    active: local
   application:
     name: minesite-server
   servlet:
