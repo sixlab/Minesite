@@ -4,9 +4,9 @@ import cn.sixlab.minesite.models.MsUser;
 import cn.sixlab.minesite.service.UserService;
 import cn.sixlab.minesite.utils.*;
 import cn.sixlab.minesite.vo.LoginUser;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,8 +16,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -25,13 +23,21 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Slf4j
 @Component
-public class MineAuthHandler implements AuthenticationProvider, AuthenticationSuccessHandler, AuthenticationFailureHandler, AccessDeniedHandler, AuthenticationEntryPoint {
+public class MineAuthHandler implements AuthenticationProvider, AuthenticationSuccessHandler, AuthenticationFailureHandler {
     @Autowired
     UserService userService;
 
     @Override
+    public boolean supports(Class<?> authentication) {
+        log.info("================");
+        return true;
+    }
+
+    @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        log.info("================");
         String username = authentication.getName().trim();
         String password = (String) authentication.getCredentials();
 
@@ -53,22 +59,8 @@ public class MineAuthHandler implements AuthenticationProvider, AuthenticationSu
     }
 
     @Override
-    public boolean supports(Class<?> authentication) {
-        return true;
-    }
-
-    @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) {
-        WebUtils.writeJson(response, ResultUtils.error(Err.AUTH, "login.access.denied").toString());
-    }
-
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
-        WebUtils.writeJson(response, ResultUtils.error(Err.AUTH, "login.not").toString());
-    }
-
-    @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception){
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
+        log.info("================");
         String message;
         if (exception instanceof BadCredentialsException) {
             message = "login.bad.credentials";
@@ -80,7 +72,8 @@ public class MineAuthHandler implements AuthenticationProvider, AuthenticationSu
     }
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication){
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        log.info("================");
         Object principal = authentication.getPrincipal();
         LoginUser loginUser = (LoginUser) principal;
         MsUser msUser = loginUser.getMsUser();

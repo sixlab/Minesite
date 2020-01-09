@@ -18,30 +18,39 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.AccessDeniedException;
 
 @Slf4j
 @ControllerAdvice
 public class MineExceptionHandler {
 
-    @ExceptionHandler(value = {HttpMessageNotReadableException.class, MissingServletRequestPartException.class, MissingServletRequestParameterException.class, MultipartException.class})
-    public ModelAndView handleHttpMessageNotReadableException(HttpServletRequest request, HttpServletResponse response, HttpMessageNotReadableException e) {
-        log.error("参数解析异常", e);
-
-        return errorMsg(request, response, ResultUtils.error(Err.EXCEPTION, "exception.parse"));
-    }
-
-    @ExceptionHandler(value = {IllegalArgumentException.class})
-    public ModelAndView handleIllegalArgumentException(HttpServletRequest request, HttpServletResponse response, HttpMessageNotReadableException e) {
+    @ExceptionHandler(value = {
+            IllegalArgumentException.class,
+            HttpMessageNotReadableException.class,
+            MissingServletRequestPartException.class,
+            MissingServletRequestParameterException.class,
+            MultipartException.class
+    })
+    public ModelAndView handleParamException(HttpServletRequest request, HttpServletResponse response, Exception e) {
         log.error("参数异常", e);
 
         return errorMsg(request, response, ResultUtils.error(Err.EXCEPTION, "exception.parse"));
     }
 
     @ExceptionHandler(value = {HttpMediaTypeNotSupportedException.class})
-    public ModelAndView handleHttpMessageNotReadableException(HttpServletRequest request, HttpServletResponse response, Exception e) {
+    public ModelAndView handleParamSupportException(HttpServletRequest request, HttpServletResponse response, Exception e) {
         log.error("参数类型不支持异常", e);
 
         return errorMsg(request, response, ResultUtils.error(Err.EXCEPTION, "exception.type.not.support"));
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public ModelAndView handlerAccessDeniedException(HttpServletRequest request, HttpServletResponse response, Exception e) {
+        log.error("AccessDeniedException", e);
+
+        Result result = ResultUtils.error(Err.AUTH, "auth.access.denied");
+
+        return errorMsg(request, response, result);
     }
 
     @ExceptionHandler(value = Exception.class)
@@ -64,14 +73,16 @@ public class MineExceptionHandler {
         if (e instanceof InvocationTargetException) {
             InvocationTargetException ee = ((InvocationTargetException) e);
             Throwable exception = ee.getTargetException();
-            log.error("", exception);
 
             if (exception instanceof MineException) {
                 mineException = ((MineException) exception);
+            } else {
+                mineException = MineException.error(Err.EXCEPTION, "Unknown：" + exception.getClass().getName());
             }
         } else if (e instanceof MineException) {
             mineException = ((MineException) e);
-            log.info("MyException： | " + mineException.getCode() + " | " + mineException.getMsg());
+        } else {
+            mineException = MineException.error(Err.EXCEPTION, "Unknown：" + e.getClass().getName());
         }
 
         return mineException;

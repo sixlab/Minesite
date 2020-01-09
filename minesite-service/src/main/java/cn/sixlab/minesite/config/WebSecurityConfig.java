@@ -3,7 +3,6 @@ package cn.sixlab.minesite.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true, securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -24,14 +23,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     MineAuthHandler authHandler;
 
+    @Autowired
+    MineAuthExceptionHandler authExceptionHandler;
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationManager authentication() throws Exception {
-        return authenticationManager();
     }
 
     @Autowired
@@ -60,17 +57,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addLogoutHandler(logoutHandler)
                 .logoutSuccessHandler(logoutHandler);
 
-        // 登录才可以访问 - 例外设置
-        http.authorizeRequests()
-                .antMatchers(
-                        "/*",
-                        "/**/guest/**"
-                ).permitAll()
-                .anyRequest().authenticated();
-
+        // 异常处理
         http.exceptionHandling()
-                .accessDeniedHandler(authHandler)
-                .authenticationEntryPoint(authHandler);
+                .accessDeniedHandler(authExceptionHandler)
+                .authenticationEntryPoint(authExceptionHandler);
 
         // 校验过滤器
         http.addFilter(new MineAuthFilter(authenticationManager()));
