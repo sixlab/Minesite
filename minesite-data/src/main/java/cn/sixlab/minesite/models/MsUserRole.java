@@ -11,7 +11,7 @@ import java.util.Date;
 public class MsUserRole {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private Integer roleId;

@@ -12,7 +12,8 @@
     <modules>
         <module>minesite-data</module>
         <module>minesite-common</module>
-        <module>minesite-server</module>
+        <module>minesite-service</module>
+        <module>minesite-web</module>
     </modules>
 
 </project>

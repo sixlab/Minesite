@@ -8,14 +8,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.security.PermitAll;
 
-@PermitAll
 @Controller
-@RequestMapping("")
+@RequestMapping
 public class IndexController {
 
     @ResponseBody
     @RequestMapping(value = {"/", "/index"})
     public Result index() {
+        return ResultUtils.success();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = {"/test/index"})
+    public Result test() {
+        return ResultUtils.success();
+    }
+
+    @PermitAll
+    @ResponseBody
+    @RequestMapping(value = {"/test/test"})
+    public Result test2() {
         return ResultUtils.success();
     }
 }

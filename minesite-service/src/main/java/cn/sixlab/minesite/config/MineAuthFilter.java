@@ -1,9 +1,6 @@
 package cn.sixlab.minesite.config;
 
-import cn.sixlab.minesite.utils.Err;
-import cn.sixlab.minesite.utils.ResultUtils;
 import cn.sixlab.minesite.utils.UserUtils;
-import cn.sixlab.minesite.utils.WebUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,16 +24,7 @@ public class MineAuthFilter extends BasicAuthenticationFilter {
                                     FilterChain chain) throws IOException, ServletException {
         String token = UserUtils.readToken();
 
-        String msg;
-        if (StringUtils.isEmpty(token)) {
-            msg = "login.token.empty";
-
-            WebUtils.writeJson(ResultUtils.error(Err.AUTH, msg).toString());
-        } else if (!UserUtils.verifyToken(token)) {
-            msg = "login.token.verify.fail";
-
-            WebUtils.writeJson(ResultUtils.error(Err.AUTH, msg).toString());
-        } else {
+        if (StringUtils.isNotEmpty(token) && UserUtils.verifyToken(token)) {
             String username = UserUtils.getUsername();
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username,
                     null, new ArrayList<>());
@@ -44,8 +32,8 @@ public class MineAuthFilter extends BasicAuthenticationFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             UserUtils.writeToken(token);
-
-            chain.doFilter(request, response);
         }
+
+        chain.doFilter(request, response);
     }
 }

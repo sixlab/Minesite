@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 public class MinesiteApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MinesiteApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MinesiteApplication.class, args);
+    }
 
 }
