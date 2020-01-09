@@ -175,8 +175,8 @@ public class HttpUtils {
      * @param json json
      * @return Result
      */
-    public static Result sendPostBody(String url, String json) {
-        return sendPostBody(url, json, null);
+    public static Result sendPostJson(String url, String json) {
+        return sendPostJson(url, json, null);
     }
 
     /**
@@ -187,7 +187,7 @@ public class HttpUtils {
      * @param header header
      * @return Result
      */
-    public static Result sendPostBody(String url, String json, Map<String, String> header) {
+    public static Result sendPostJson(String url, String json, Map<String, String> header) {
         log.info("POST：" + url);
         log.info("JSON：" + json);
         log.info("header：" + makeGetParam(header));

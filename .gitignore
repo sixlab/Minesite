@@ -100,10 +100,6 @@ gen
 .directory
 .Trash-*
 .nfs*
-.idea
-*.iml
-out
-gen
 docs/_book
 test/
 Thumbs.db
