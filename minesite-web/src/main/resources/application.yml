@@ -27,6 +27,7 @@ spring:
     serialization:
       write-dates-as-timestamps: true
   freemarker:
+    suffix: .ftl
     prefer-file-system-access: false
     settings:
       number_format: 0.##
@@ -35,6 +36,7 @@ spring:
   messages:
     basename: i18n/message
   jpa:
+    database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
     show-sql: true
     hibernate:
       ddl-auto: update

@@ -8,7 +8,7 @@ import java.util.Date;
 @Table
 @Entity
 @Data
-public class MsRole {
+public class MsAuth {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +19,14 @@ public class MsRole {
     private Date createTime;
 
     @Column(length = 30)
-    private String roleName;
+    private String groupName;
+
+    @Column(length = 30)
+    private String authCode;
+
+    @Column(length = 30)
+    private String authName;
 
     @Column(length = 200)
-    private String roleIntro;
-
+    private String authIntro;
 }

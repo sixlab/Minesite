@@ -14,11 +14,14 @@ public class MsUserRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer roleId;
-
-    private Integer userId;
-
     private Integer status;
 
     private Date createTime;
+
+    @Column(length = 30)
+    private String username;
+
+    private Integer roleId;
+
+    private Integer userId;
 }

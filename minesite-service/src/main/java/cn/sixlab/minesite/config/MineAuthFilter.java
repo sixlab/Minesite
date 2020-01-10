@@ -1,5 +1,6 @@
 package cn.sixlab.minesite.config;
 
+import cn.sixlab.minesite.models.MsUser;
 import cn.sixlab.minesite.utils.UserUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,9 +25,9 @@ public class MineAuthFilter extends BasicAuthenticationFilter {
                                     FilterChain chain) throws IOException, ServletException {
         String token = UserUtils.readToken();
 
-        if (StringUtils.isNotEmpty(token) && UserUtils.verifyToken(token)) {
-            String username = UserUtils.getUsername();
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username,
+        if (StringUtils.isNotEmpty(token) && UserUtils.isLogin(token)) {
+            MsUser msUser = UserUtils.readTokenUser(token);
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(msUser,
                     null, new ArrayList<>());
 
             SecurityContextHolder.getContext().setAuthentication(authentication);

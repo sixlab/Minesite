@@ -14,13 +14,15 @@ public class MsUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 30)
-    private String username;
-
-    @Column(length = 100)
-    private String password;
-
     private Integer status;
 
     private Date createTime;
+
+    @Column(length = 30, unique = true)
+    private String username;
+
+    private boolean admin;
+
+    @Column(length = 100)
+    private String password;
 }

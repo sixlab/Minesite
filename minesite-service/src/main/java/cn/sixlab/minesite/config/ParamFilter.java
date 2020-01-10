@@ -1,6 +1,5 @@
 package cn.sixlab.minesite.config;
 
-import cn.sixlab.minesite.utils.UserUtils;
 import cn.sixlab.minesite.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
@@ -34,7 +33,7 @@ public class ParamFilter implements Filter {
         String inComeUrI = request.getRequestURI();
 
         result.append(inComeUrI).append(" | ");
-        result.append(UserUtils.getUsername()).append(" | ");
+        // result.append(UserUtils.getUsername()).append(" | ");
 
         result.append("\n");
 

@@ -4,8 +4,6 @@ import cn.sixlab.minesite.models.MsUser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,23 +12,39 @@ import java.util.Date;
 public class UserUtils {
     private static String TOKEN_KEY = "MS_USER";
 
-    public static String getUsername() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (null != authentication) {
-            String name = authentication.getName();
-            if (!StringUtils.equalsIgnoreCase(name, "anonymousUser")) {
-                return name;
+    public static MsUser readTokenUser() {
+        String token = readToken();
+        return readTokenUser(token);
+    }
+
+    public static MsUser readTokenUser(String token) {
+        try {
+            String subject = Jwts.parser()
+                    .setSigningKey(signKey())
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+
+            MsUser msUser = JsonUtils.toBean(subject, MsUser.class);
+
+            if (null != msUser) {
+                return msUser;
             }
+        } catch (Exception e) {
+
         }
+
         return null;
     }
 
     public static boolean isLogin() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (null != auth) {
-            return !(auth instanceof AnonymousAuthenticationToken);
-        }
-        return false;
+        String token = readToken();
+        return isLogin(token);
+    }
+
+    public static boolean isLogin(String token) {
+        MsUser msUser = readTokenUser(token);
+        return msUser != null;
     }
 
     public static void logout() {
@@ -39,7 +53,8 @@ public class UserUtils {
     }
 
     public static String login(MsUser msUser) {
-        String token = createToken(msUser.getUsername());
+        msUser.setPassword(null);
+        String token = createToken(JsonUtils.toJson(msUser));
 
         writeToken(token);
 
@@ -75,20 +90,6 @@ public class UserUtils {
         }
 
         return token;
-    }
-
-    public static boolean verifyToken(String token) {
-        String subject;
-        try {
-            subject = Jwts.parser()
-                    .setSigningKey(signKey())
-                    .parseClaimsJws(token)
-                    .getBody()
-                    .getSubject();
-        } catch (Exception e) {
-            subject = null;
-        }
-        return StringUtils.isNotEmpty(subject);
     }
 
     private static int expire() {
