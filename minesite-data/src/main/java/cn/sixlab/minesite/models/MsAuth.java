@@ -18,6 +18,9 @@ public class MsAuth {
 
     private Date createTime;
 
+    @Column(length = 10)
+    private String type;
+
     @Column(length = 30)
     private String groupName;
 
