@@ -8,7 +8,7 @@ import java.util.Date;
 @Table
 @Entity
 @Data
-public class MsUser {
+public class MsRoleMenu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,13 +18,8 @@ public class MsUser {
 
     private Date createTime;
 
-    @Column(length = 30, unique = true)
-    private String username;
+    private Integer roleId;
 
     @Column(length = 30)
-    private String nickname;
-
-    @Column(length = 100)
-    private String password;
-    
+    private String menuCode;
 }
