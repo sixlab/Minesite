@@ -9,6 +9,13 @@ import java.util.List;
 
 public interface MsMenuDao extends JpaRepository<MsMenu, Integer> {
 
+    @Query(" select m from MsMenu m,MsRoleMenu rm,MsUserRole ur " +
+            " where m.menuCode = rm.menuCode " +
+            " and ur.userId = :userId " +
+            " and m.status = 1 " +
+            " and rm.roleId = ur.roleId ")
+    List<MsMenu> findUserMenus(@Param("userId") Integer userId);
+
     @Query(" select m from MsMenu m,MsRoleMenu rm " +
             " where m.menuCode = rm.menuCode " +
             " and rm.roleId = :roleId ")
