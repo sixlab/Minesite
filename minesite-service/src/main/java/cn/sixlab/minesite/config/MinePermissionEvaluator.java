@@ -4,6 +4,7 @@ import cn.sixlab.minesite.dao.MsUserDao;
 import cn.sixlab.minesite.models.MsUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,9 @@ public class MinePermissionEvaluator implements PermissionEvaluator {
 
     @Autowired
     private MsUserDao msUserDao;
+
+    @Value("${minesite.username}")
+    private String username;
 
     @Override
     public boolean hasPermission(Authentication authentication, Object adminAuth, Object userAuth) {
@@ -31,10 +35,12 @@ public class MinePermissionEvaluator implements PermissionEvaluator {
                 return true;
             }
 
-            if(msUser.isAdmin()){
+            if(msUser.getUsername().startsWith(username+"-")){
                 // 管理员
                 if (StringUtils.isEmpty(adminAuthCode) || "permitAll".equals(adminAuthCode)) {
                     return true;
+                } else if ("denyAll".equals(userAuthCode)) {
+                    return false;
                 } else {
                     String[] codes = StringUtils.split(adminAuthCode, ",");
                     int i = msUserDao.countUserRole(userId, codes);
@@ -46,6 +52,8 @@ public class MinePermissionEvaluator implements PermissionEvaluator {
                 // 普通用户
                 if (StringUtils.isEmpty(userAuthCode) || "permitAll".equals(userAuthCode)) {
                     return true;
+                } else if ("denyAll".equals(userAuthCode)) {
+                    return false;
                 } else {
                     String[] codes = StringUtils.split(userAuthCode, ",");
                     // TODO

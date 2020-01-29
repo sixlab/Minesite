@@ -29,6 +29,7 @@ spring:
     cache: false
 
 minesite:
+  username: admin
   druid:
     key: root
     username: druid

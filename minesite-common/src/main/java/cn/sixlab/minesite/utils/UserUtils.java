@@ -12,6 +12,10 @@ import java.util.Date;
 public class UserUtils {
     private static String TOKEN_KEY = "MS_USER";
 
+    public static Integer loginedUserId() {
+        return readTokenUser().getId();
+    }
+
     public static MsUser readTokenUser() {
         String token = readToken();
         return readTokenUser(token);
