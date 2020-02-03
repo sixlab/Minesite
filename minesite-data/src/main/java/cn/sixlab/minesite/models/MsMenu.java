@@ -5,9 +5,13 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 
-@Table
 @Entity
 @Data
+@Table(
+        indexes = {
+                @Index(columnList = "menuLevel")
+        }
+)
 public class MsMenu {
 
     @Id
@@ -18,12 +22,6 @@ public class MsMenu {
 
     private Date createTime;
 
-    @Column(length = 10)
-    private String type;
-
-    @Column(length = 30)
-    private String menuCode;
-
     @Column(length = 30)
     private String menuName;
 
@@ -32,9 +30,9 @@ public class MsMenu {
 
     private Integer menuLevel;
 
-    private Integer parentId;
-
     private Boolean isLeaf;
+
+    private Integer parentId;
 
     @Column(length = 30)
     private String menuIcon;

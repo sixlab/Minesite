@@ -1,7 +1,7 @@
 package cn.sixlab.minesite.service;
 
 import cn.sixlab.minesite.dao.MsMenuDao;
-import cn.sixlab.minesite.dao.MsRoleMenuDao;
+import cn.sixlab.minesite.dao.MsAuthResourceDao;
 import cn.sixlab.minesite.models.MsMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class MenuService {
     private MsMenuDao menuDao;
 
     @Autowired
-    private MsRoleMenuDao roleMenuDao;
+    private MsAuthResourceDao roleMenuDao;
 
     public List<MsMenu> loadUserMenu(Integer userId) {
         return menuDao.findUserMenus(userId);

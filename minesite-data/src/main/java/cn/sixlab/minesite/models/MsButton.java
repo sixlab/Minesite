@@ -5,10 +5,10 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 
-@Table
 @Entity
 @Data
-public class MsRoleMenu {
+@Table
+public class MsButton {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +18,12 @@ public class MsRoleMenu {
 
     private Date createTime;
 
-    private Integer roleId;
+    @Column(length = 30)
+    private String btnName;
 
     @Column(length = 30)
-    private String menuCode;
+    private String btnIcon;
+
+    @Column(length = 200)
+    private String btnIntro;
 }

@@ -5,9 +5,15 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 
-@Table
 @Entity
 @Data
+@Table(
+        indexes = {
+                @Index(columnList = "userId"),
+                @Index(columnList = "roleId"),
+                @Index(columnList = "username")
+        }
+)
 public class MsUserRole {
 
     @Id

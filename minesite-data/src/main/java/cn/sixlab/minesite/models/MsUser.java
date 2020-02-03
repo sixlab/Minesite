@@ -5,9 +5,11 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 
-@Table
 @Entity
 @Data
+@Table(
+        uniqueConstraints = {@UniqueConstraint(columnNames = "username")}
+)
 public class MsUser {
 
     @Id
@@ -18,7 +20,7 @@ public class MsUser {
 
     private Date createTime;
 
-    @Column(length = 30, unique = true)
+    @Column(length = 30)
     private String username;
 
     @Column(length = 30)

@@ -5,9 +5,9 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 
-@Table
 @Entity
 @Data
+@Table
 public class MsRole {
 
     @Id

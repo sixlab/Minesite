@@ -9,11 +9,12 @@ import java.util.Date;
 @Data
 @Table(
         indexes = {
+                @Index(columnList = "type"),
                 @Index(columnList = "roleId"),
-                @Index(columnList = "authId")
+                @Index(columnList = "resourceId")
         }
 )
-public class MsRoleAuth {
+public class MsAuthResource {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +24,12 @@ public class MsRoleAuth {
 
     private Date createTime;
 
+    // menu   菜单
+    // button 按钮
+    @Column(length = 10)
+    private String type;
+
     private Integer roleId;
 
-    private Integer authId;
+    private Integer resourceId;
 }

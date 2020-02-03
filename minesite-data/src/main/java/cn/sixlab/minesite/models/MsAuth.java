@@ -5,9 +5,11 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 
-@Table
 @Entity
 @Data
+@Table(
+        uniqueConstraints = {@UniqueConstraint(columnNames = "authCode")}
+)
 public class MsAuth {
 
     @Id
@@ -18,8 +20,7 @@ public class MsAuth {
 
     private Date createTime;
 
-    @Column(length = 10)
-    private String type;
+    private Integer weight;
 
     @Column(length = 30)
     private String groupName;
@@ -32,4 +33,5 @@ public class MsAuth {
 
     @Column(length = 200)
     private String authIntro;
+
 }
