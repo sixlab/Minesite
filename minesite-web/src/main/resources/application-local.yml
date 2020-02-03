@@ -4,7 +4,11 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/minesite?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     username: root
-    password: pwd
+    # com.alibaba.druid.filter.config.ConfigTools
+    # String[] keyPair = ConfigTools.genKeyPair(512);
+    # minesite.druid.key = keyPair[1]
+    # password = ConfigTools.encrypt(keyPair[0], "pwd")
+    password: PWqfXGsfvOUPC3KLrX1Y4aiDTKWoO2U8NdMqQI+eDcJFlUK3NwZZCV3Uqyph2boqChRYJiNk29aRoajoqe7i2A==
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     #下面为连接池补充设置
@@ -31,7 +35,7 @@ spring:
 minesite:
   username: admin
   druid:
-    key: root
+    key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIGCSOBnImh9gqwzNiOawzwhtyZKc0C8n6BqQgVr7UUEnnLnq9l0478iCbnHGbVrFH5PXqDxtn5ZlIZgbnG7/Y8CAwEAAQ==
     username: druid
     password: druid
   login:
