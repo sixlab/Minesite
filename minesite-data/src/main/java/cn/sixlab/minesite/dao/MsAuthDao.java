@@ -9,10 +9,10 @@ import java.util.List;
 
 public interface MsAuthDao extends JpaRepository<MsAuth, Integer> {
 
-    @Query(" select u from MsAuth u,MsRoleAuth a,MsUserRole r " +
-            " where u.authCode = a.authCode " +
+    @Query(" select a from MsAuth a,MsRoleAuth ra,MsUserRole ur " +
+            " where a.id = ra.authId " +
             " and a.status = 1 " +
-            " and a.roleId = r.roleId " +
-            " and r.userId = :userId ")
+            " and ra.roleId = ur.roleId " +
+            " and ur.userId = :userId ")
     List<MsAuth> findUserAuths(@Param("userId") Integer userId);
 }

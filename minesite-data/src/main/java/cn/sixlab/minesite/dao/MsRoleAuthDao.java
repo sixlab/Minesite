@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MsRoleAuthDao extends JpaRepository<MsRoleAuth, Integer> {
 
-    void deleteAllByAuthCode(String authCode);
+    void deleteAllByAuthId(Integer authId);
 
     void deleteAllByRoleId(Integer roleId);
 

@@ -10,7 +10,7 @@ import java.util.Date;
 @Table(
         indexes = {
                 @Index(columnList = "type"),
-                @Index(columnList = "roleId"),
+                @Index(columnList = "authId"),
                 @Index(columnList = "resourceId")
         }
 )
@@ -29,7 +29,7 @@ public class MsAuthResource {
     @Column(length = 10)
     private String type;
 
-    private Integer roleId;
+    private Integer authId;
 
     private Integer resourceId;
 }

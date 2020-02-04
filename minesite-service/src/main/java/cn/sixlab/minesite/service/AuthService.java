@@ -36,7 +36,7 @@ public class AuthService {
 
         if (byId.isPresent()) {
             authDao.deleteById(authId);
-            roleAuthDao.deleteAllByAuthCode(byId.get().getAuthCode());
+            roleAuthDao.deleteAllByAuthId(byId.get().getId());
         }
 
     }

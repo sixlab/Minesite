@@ -9,22 +9,36 @@ import java.util.List;
 
 public interface MsMenuDao extends JpaRepository<MsMenu, Integer> {
 
-    @Query(" select m from MsMenu m,MsRoleMenu rm,MsUserRole ur " +
-            " where m.menuCode = rm.menuCode " +
-            " and ur.userId = :userId " +
-            " and m.status = 1 " +
-            " and rm.roleId = ur.roleId ")
+    @Query(" select m from MsUserRole ur,MsRoleAuth ra,MsAuthResource ar, MsMenu m" +
+            " where ur.userId = :userId " +
+            " and ur.roleId = ra.roleId " +
+            " and ra.authId = ar.authId " +
+            " and ar.type = 'menu' " +
+            " and ar.resourceId = m.id ")
     List<MsMenu> findUserMenus(@Param("userId") Integer userId);
 
-    @Query(" select m from MsMenu m,MsRoleMenu rm " +
-            " where m.menuCode = rm.menuCode " +
-            " and rm.roleId = :roleId ")
+    @Query(" select m from MsRoleAuth ra,MsAuthResource ar, MsMenu m" +
+            " where ra.roleId = :roleId " +
+            " and ra.authId = ar.authId " +
+            " and ar.type = 'menu' " +
+            " and ar.resourceId = m.id " +
+            " and m.status = 1 ")
     List<MsMenu> findRoleMenus(@Param("roleId") Integer roleId);
 
-    @Query(" select m from MsMenu m,MsRoleMenu rm " +
-            " where m.menuCode = rm.menuCode " +
-            " and m.status = 1 " +
-            " and rm.roleId = :roleId ")
+    @Query(" select m from MsUserRole ur,MsRoleAuth ra,MsAuthResource ar, MsMenu m" +
+            " where ur.userId = :userId " +
+            " and ur.roleId = ra.roleId " +
+            " and ra.authId = ar.authId " +
+            " and ar.type = 'menu' " +
+            " and ar.resourceId = m.id " +
+            " and m.status = 1 ")
+    List<MsMenu> findActiveUserMenus(@Param("userId") Integer userId);
+
+    @Query(" select m from MsRoleAuth ra,MsAuthResource ar, MsMenu m" +
+            " where ra.roleId = :roleId " +
+            " and ra.authId = ar.authId " +
+            " and ar.type = 'menu' " +
+            " and ar.resourceId = m.id ")
     List<MsMenu> findActiveRoleMenus(@Param("roleId") Integer roleId);
 
 }

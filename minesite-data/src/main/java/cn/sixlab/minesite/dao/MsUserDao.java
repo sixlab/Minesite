@@ -9,10 +9,12 @@ public interface MsUserDao extends JpaRepository<MsUser, Integer> {
 
     MsUser findByUsername(String username);
 
-    // TODO: 状态判断有问题
-    @Query(" select count(u.id) from MsUserRole u,MsRoleAuth a " +
-            " where u.roleId = a.roleId " +
-            " and u.userId = :userId " +
-            " and a.authCode in :codes ")
+    @Query(" select count(ur.id) from MsUserRole ur,MsRoleAuth ra, MsAuth a" +
+            " where ur.roleId = ra.roleId " +
+            " and ur.userId = :userId " +
+            " and a.id = ra.authId " +
+            " and a.status = 1 " +
+            " and ra.authCode in :codes ")
     int countUserRole(@Param("userId") Integer userId, @Param("codes") String[] codes);
+    
 }

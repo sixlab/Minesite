@@ -19,11 +19,11 @@ public class MsButton {
     private Date createTime;
 
     @Column(length = 30)
-    private String btnName;
+    private String buttonName;
 
     @Column(length = 30)
-    private String btnIcon;
+    private String buttonIcon;
 
     @Column(length = 200)
-    private String btnIntro;
+    private String buttonIntro;
 }
