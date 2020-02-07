@@ -36,7 +36,7 @@ public class MenuService {
 
         if (byId.isPresent()) {
             menuDao.deleteById(menuId);
-            roleMenuDao.deleteAllByMenuCode(byId.get().getMenuCode());
+            roleMenuDao.deleteAllByResourceIdAndType(byId.get().getId(), "menu");
         }
 
     }

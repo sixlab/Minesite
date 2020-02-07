@@ -14,7 +14,7 @@ public interface MsUserDao extends JpaRepository<MsUser, Integer> {
             " and ur.userId = :userId " +
             " and a.id = ra.authId " +
             " and a.status = 1 " +
-            " and ra.authCode in :codes ")
+            " and a.authCode in :codes ")
     int countUserRole(@Param("userId") Integer userId, @Param("codes") String[] codes);
     
 }
