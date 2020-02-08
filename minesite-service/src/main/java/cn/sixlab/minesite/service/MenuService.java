@@ -18,7 +18,7 @@ public class MenuService {
     @Autowired
     private MsAuthResourceDao roleMenuDao;
 
-    public List<MsMenu> loadUserMenu(Integer userId) {
+    public List<MsMenu> loadUserMenu(Integer userId, int level) {
         return menuDao.findUserMenus(userId);
     }
 
@@ -54,5 +54,9 @@ public class MenuService {
 
             menuDao.save(MsMenu);
         }
+    }
+
+    public MsMenu loadTopMenu(Integer userId, String uri) {
+        return null;
     }
 }

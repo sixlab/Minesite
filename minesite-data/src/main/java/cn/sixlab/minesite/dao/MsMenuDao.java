@@ -31,8 +31,9 @@ public interface MsMenuDao extends JpaRepository<MsMenu, Integer> {
             " and ra.authId = ar.authId " +
             " and ar.type = 'menu' " +
             " and ar.resourceId = m.id " +
+            " and m.menuLevel = :level " +
             " and m.status = 1 ")
-    List<MsMenu> findActiveUserMenus(@Param("userId") Integer userId);
+    List<MsMenu> findActiveUserMenus(@Param("userId") Integer userId, @Param("level")Integer level);
 
     @Query(" select m from MsRoleAuth ra,MsAuthResource ar, MsMenu m" +
             " where ra.roleId = :roleId " +

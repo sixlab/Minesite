@@ -27,7 +27,7 @@ public class MenuController {
     @RequestMapping("/userMenu")
     public Result userMenu() {
         Integer userId = UserUtils.loginedUserId();
-        List<MsMenu> menus = menuService.loadUserMenu(userId);
+        List<MsMenu> menus = menuService.loadUserMenu(userId, 1);
         return ResultUtils.success(menus);
     }
 
