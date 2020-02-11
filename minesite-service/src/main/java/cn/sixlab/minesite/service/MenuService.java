@@ -56,7 +56,11 @@ public class MenuService {
         }
     }
 
-    public MsMenu loadTopMenu(Integer userId, String uri) {
-        return null;
+    public List<MsMenu> loadTopMenu(Integer userId) {
+        return menuDao.findActiveUserMenus(userId, 1);
+    }
+
+    public List<MsMenu> loadUserSubMenu(Integer userId, Integer... folderIds) {
+        return menuDao.findActiveUserSubMenus(userId, folderIds);
     }
 }

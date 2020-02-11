@@ -22,6 +22,8 @@ public class MsMenu {
 
     private Date createTime;
 
+    private Integer weight;
+
     @Column(length = 30)
     private String menuName;
 

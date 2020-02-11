@@ -27,15 +27,40 @@ public class FrameInfoDirective implements TemplateDirectiveModel {
         Integer userId = UserUtils.loginedUserId();
         String uri = MapUtils.getString(params, "uri", "/");
 
-        MsMenu topMenu = service.loadTopMenu(userId, uri);
+        List<MsMenu> level1 = service.loadTopMenu(userId);
 
-        List<MsMenu> navs = service.loadUserMenu(userId, 1);
-        List<MsMenu> menus = new ArrayList<>();
+        Integer topId = null;
+        for (MsMenu msMenu : level1) {
+            if(uri.startsWith(msMenu.getMenuPath())){
+                topId = msMenu.getId();
+                break;
+            }
+        }
+
+        List<MsMenu> level2;
+        if (topId == null) {
+            level2 = new ArrayList<>();
+            topId = 0;
+        } else {
+            level2 = service.loadUserSubMenu(userId, topId);
+        }
+
+        List<Integer> folderIds = new ArrayList<>();
+        for (MsMenu msMenu : level2) {
+            if (!msMenu.getIsLeaf()) {
+                folderIds.add(msMenu.getId());
+            }
+        }
+
+        List<MsMenu> level3 = service.loadUserSubMenu(userId, folderIds.toArray(new Integer[]{}));
 
         List messages = new ArrayList<>();
 
-        env.setVariable("navs", new BeansWrapperBuilder(Configuration.VERSION_2_3_29).build().wrap(navs));
-        env.setVariable("menus", new BeansWrapperBuilder(Configuration.VERSION_2_3_29).build().wrap(menus));
+        env.setVariable("topId", new BeansWrapperBuilder(Configuration.VERSION_2_3_29).build().wrap(topId));
+
+        env.setVariable("level1", new BeansWrapperBuilder(Configuration.VERSION_2_3_29).build().wrap(level1));
+        env.setVariable("level2", new BeansWrapperBuilder(Configuration.VERSION_2_3_29).build().wrap(level2));
+        env.setVariable("level3", new BeansWrapperBuilder(Configuration.VERSION_2_3_29).build().wrap(level3));
 
         env.setVariable("messages", new BeansWrapperBuilder(Configuration.VERSION_2_3_29).build().wrap(messages));
 
