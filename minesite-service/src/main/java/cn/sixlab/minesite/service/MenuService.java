@@ -4,6 +4,8 @@ import cn.sixlab.minesite.dao.MsMenuDao;
 import cn.sixlab.minesite.dao.MsAuthResourceDao;
 import cn.sixlab.minesite.models.MsMenu;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -18,8 +20,8 @@ public class MenuService {
     @Autowired
     private MsAuthResourceDao roleMenuDao;
 
-    public List<MsMenu> loadUserMenu(Integer userId, int level) {
-        return menuDao.findUserMenus(userId);
+    public Page<MsMenu> loadUserMenu(Integer userId, int level) {
+        return menuDao.queryMsMenu(null, level, PageRequest.of(0, 3));
     }
 
     public MsMenu submitMenu(MsMenu menu) {
