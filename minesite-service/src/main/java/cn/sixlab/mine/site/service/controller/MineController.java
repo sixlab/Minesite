@@ -2,11 +2,12 @@ package cn.sixlab.mine.site.service.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping
-public class IndexController {
+@RequestMapping("/i")
+public class MineController {
 
     @RequestMapping(value = {"/", "/index"})
     public String index(ModelMap model) {
@@ -14,20 +15,8 @@ public class IndexController {
         return "index";
     }
 
-    @RequestMapping(value = "/test")
-    public String test(ModelMap model) {
-
-        return "index";
-    }
-
-    @RequestMapping(value = "/test/")
-    public String test0(ModelMap model) {
-
-        return "index";
-    }
-
-    @RequestMapping(value = "/test/abc")
-    public String test1(ModelMap model) {
+    @RequestMapping(value = "/{username}")
+    public String test(@PathVariable("username") String username) {
 
         return "index";
     }
