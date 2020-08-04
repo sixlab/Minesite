@@ -3,20 +3,18 @@ package cn.sixlab.mine.site.core.models;
 import java.io.Serializable;
 import java.util.Date;
 
-public class MsJob implements Serializable {
+public class MsJobRecord implements Serializable {
     private Integer id;
 
-    private String jobClz;
+    private Integer jobId;
 
     private String jobName;
 
     private Integer status;
 
-    private Date lastTime;
-
-    private Integer lastStatus;
-
     private Date createTime;
+
+    private String msg;
 
     private static final long serialVersionUID = 1L;
 
@@ -28,12 +26,12 @@ public class MsJob implements Serializable {
         this.id = id;
     }
 
-    public String getJobClz() {
-        return jobClz;
+    public Integer getJobId() {
+        return jobId;
     }
 
-    public void setJobClz(String jobClz) {
-        this.jobClz = jobClz == null ? null : jobClz.trim();
+    public void setJobId(Integer jobId) {
+        this.jobId = jobId;
     }
 
     public String getJobName() {
@@ -52,27 +50,19 @@ public class MsJob implements Serializable {
         this.status = status;
     }
 
-    public Date getLastTime() {
-        return lastTime;
-    }
-
-    public void setLastTime(Date lastTime) {
-        this.lastTime = lastTime;
-    }
-
-    public Integer getLastStatus() {
-        return lastStatus;
-    }
-
-    public void setLastStatus(Integer lastStatus) {
-        this.lastStatus = lastStatus;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg == null ? null : msg.trim();
     }
 }
