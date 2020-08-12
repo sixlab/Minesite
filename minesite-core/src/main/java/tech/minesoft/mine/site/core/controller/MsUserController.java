@@ -5,48 +5,39 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import tech.minesoft.mine.site.core.models.MsJob;
-import tech.minesoft.mine.site.core.models.MsJobRecord;
-import tech.minesoft.mine.site.core.service.MsJobService;
+import tech.minesoft.mine.site.core.models.MsUser;
+import tech.minesoft.mine.site.core.service.MsUserService;
 import tech.minesoft.mine.site.core.vo.ResultJson;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/ms/job")
-public class MsJobController {
+@RequestMapping("/ms/menu")
+public class MsUserController {
 
     @Autowired
-    private MsJobService jobService;
+    private MsUserService userService;
 
     @PreAuthorize("hasAuthority('admin')")
     @GetMapping(value = "/list")
     public String list(ModelMap map) {
-        List<MsJob> dataList = jobService.loadAll();
+        List<MsUser> dataList = userService.loadAll();
         map.put("dataList", dataList);
-        return "ms/job/list";
-    }
-
-    @PreAuthorize("hasAuthority('admin')")
-    @GetMapping(value = "/record")
-    public String record(ModelMap map) {
-        List<MsJobRecord> dataList = jobService.loadLastRecord();
-        map.put("dataList", dataList);
-        return "ms/job/record";
+        return "ms/user/list";
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @GetMapping(value = "/add")
     public String add(ModelMap map) {
-        return "ms/job/edit";
+        return "ms/user/edit";
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @GetMapping(value = "/edit/{id}")
     public String edit(ModelMap map, @PathVariable Integer id) {
-        MsJob job = jobService.select(id);
-        map.put("job", job);
-        return "ms/job/edit";
+        MsUser data = userService.select(id);
+        map.put("data", data);
+        return "ms/user/edit";
     }
 
     @PreAuthorize("hasAuthority('admin')")
@@ -54,7 +45,7 @@ public class MsJobController {
     @PostMapping(value = "/delete/{id}")
     public ResultJson delete(@PathVariable Integer id) {
 
-        jobService.delete(id);
+        userService.delete(id);
 
         return ResultJson.success();
     }
@@ -62,12 +53,12 @@ public class MsJobController {
     @PreAuthorize("hasAuthority('admin')")
     @ResponseBody
     @PostMapping(value = "/submit")
-    public ResultJson submit(MsJob job) {
+    public ResultJson submit(MsUser data) {
 
-        if(null==job.getId()){
-            jobService.add(job);
+        if(null==data.getId()){
+            userService.add(data);
         }else{
-            jobService.modify(job);
+            userService.modify(data);
         }
 
         return ResultJson.success();
